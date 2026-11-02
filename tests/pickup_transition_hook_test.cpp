@@ -1,0 +1,23 @@
+#define NOMINMAX
+#include "../src/bridge.cpp"
+#include <cstdio>
+static void require(bool value){if(!value)throw std::runtime_error("pickup transition bridge check failed");}
+static bool mutateArguments{};
+int main(){try{
+    std::vector<unsigned char> image(0x3a5330+sizeof(std::uintptr_t));const auto previous=pillBottle::image;pillBottle::image=reinterpret_cast<std::uintptr_t>(image.data());*reinterpret_cast<std::uintptr_t*>(image.data()+0x3a5330)=0x11223344;
+    auto entity=reinterpret_cast<void*>(std::uintptr_t(0x1000));pillBottle::CullObservation cull;cull.tested=true;cull.nativeResult=cull.effectiveResult=1;cull.sector.status=nativePickupSector::Status::StampMatches;
+    reportPickupVisibility(entity,100,true,0,1,cull);require(!pickupTransitions.snapshot().count);
+    const auto sphereOriginal=originalSphereTest;originalSphereTest=+[](const void* planes,const float* center,float){if(mutateArguments){const_cast<float*>(center)[0]=99;const_cast<float*>(static_cast<const float*>(planes))[0]=99;}return 1.f;};const auto oldScope=pillBottle::pickupUpdateScope;const auto oldPlanes=pillBottle::pickupFrustumScope;const auto oldCull=pillBottle::pickupCull;std::array<float,24> planes{};for(unsigned i=0;i<24;++i)planes[i]=float(i+1);const auto expectedPlanes=planes;pillBottle::pickupUpdateScope=true;pillBottle::pickupFrustumScope=planes.data();float center[]={1,2,3};
+    require(sphereTestDiagnostic(pillBottle::pickupFrustumScope,center,.5f)==1&&!pillBottle::pickupCull.sphereKnown&&!pillBottle::pickupCull.planesKnown);
+    require(TestInput(reinterpret_cast<void*>(37))==0);require(sphereTestDiagnostic(pillBottle::pickupFrustumScope,nullptr,.5f)==1&&!pillBottle::pickupCull.sphereKnown&&pillBottle::pickupCull.planesKnown);mutateArguments=true;require(sphereTestDiagnostic(pillBottle::pickupFrustumScope,center,.5f)==1&&pillBottle::pickupCull.sphereKnown&&pillBottle::pickupCull.planesKnown&&center[0]==99&&planes[0]==99);mutateArguments=false;cull=pillBottle::pickupCull;cull.sector.status=nativePickupSector::Status::StampMatches;cull.nativeResult=2.5e-8f;cull.effectiveResult=3.5e-8f;reportPickupVisibility(entity,100,true,0,1,cull);cull.nativeResult=cull.effectiveResult=0;reportPickupVisibility(entity,100,false,0,-.01f,cull);cull.nativeResult=cull.effectiveResult=1;reportPickupVisibility(entity,100,true,0,.01f,cull);
+    auto snapshot=pickupTransitions.snapshot();require(snapshot.count==3&&snapshot.events[0].baseline&&!snapshot.events[1].baseline&&!snapshot.events[1].visible&&snapshot.events[2].visible&&snapshot.events[2].time-snapshot.events[0].time<500);
+    require(snapshot.events[0].scene==0x11223344&&snapshot.events[0].entity==0x1000&&snapshot.events[0].thread==GetCurrentThreadId());
+    require(snapshot.events[0].sphereKnown&&snapshot.events[0].sphere==std::array<float,4>{1,2,3,.5f}&&snapshot.events[0].planesKnown&&snapshot.events[0].testedPlanes==expectedPlanes);originalSphereTest=sphereOriginal;pillBottle::pickupUpdateScope=oldScope;pillBottle::pickupFrustumScope=oldPlanes;pillBottle::pickupCull=oldCull;
+    FILE* captured{};require(tmpfile_s(&captured)==0&&captured);logFile=captured;require(TestInput(reinterpret_cast<void*>(38))==0);require(TestInput(reinterpret_cast<void*>(38))==0);std::rewind(captured);std::string dumpText;char dumpBytes[1024];while(auto count=std::fread(dumpBytes,1,sizeof dumpBytes,captured))dumpText.append(dumpBytes,count);logFile=nullptr;std::fclose(captured);require(dumpText.find("pickup_transition_tested_sphere dump=1 record=0 ")!=std::string::npos&&dumpText.find("pickup_transition_tested_plane dump=1 record=2 ")!=std::string::npos&&dumpText.find("pickup_transition_tested_plane dump=2 record=2 ")!=std::string::npos);auto firstRecord=dumpText.find("pickup_transition dump=1 record=0 ");require(firstRecord!=std::string::npos);auto nativeValue=dumpText.find("native=",firstRecord);require(nativeValue!=std::string::npos&&std::stof(dumpText.substr(nativeValue+7))==snapshot.events[0].nativeResult);auto effectiveValue=dumpText.find("effective=",firstRecord);require(effectiveValue!=std::string::npos&&std::stof(dumpText.substr(effectiveValue+10))==snapshot.events[0].effectiveResult);cull.nativeResult=0;reportPickupVisibility(entity,100,false,0,-1,cull);require(pickupTransitions.snapshot().count==3&&!pickupTransitions.mayCapture(GetTickCount64()));pillBottle::image=previous;
+    std::puts("PASS: actual report callback and37/38 diagnostic exports retain sub-500ms disappear/return before existing log throttle; default-off/stop/baseline/thread/scene identity; allocated fixture memory/private temporary log only, no game/GPU/XR.");return 0;
+}catch(const std::exception& e){std::puts(e.what());return 1;}}
+
+
+
+
+

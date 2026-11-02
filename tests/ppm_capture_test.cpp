@@ -1,0 +1,8 @@
+#include "../src/ppm_capture.hpp"
+#include <chrono>
+#include <stdexcept>
+#include <algorithm>
+void oldWrite(FILE* f,const unsigned char* p,size_t pitch,unsigned w,unsigned h,unsigned step){fprintf(f,"P6\n%u %u\n255\n",w/step,h/step);for(unsigned y=0;y<h/step;y++)for(unsigned x=0;x<w/step;x++)fwrite(p+size_t(y*step)*pitch+x*step*4,1,3,f);}
+std::vector<unsigned char> bytes(FILE* f){fflush(f);auto n=ftell(f);rewind(f);std::vector<unsigned char> b(n);if(fread(b.data(),1,b.size(),f)!=b.size())throw std::runtime_error("read failed");return b;}
+int main(){try{for(unsigned step:{1u,2u,3u})for(unsigned pad:{0u,64u}){unsigned w=31,h=23,pitch=w*4+pad;std::vector<unsigned char> p(pitch*h);for(size_t i=0;i<p.size();++i)p[i]=static_cast<unsigned char>(i*37);FILE *a=tmpfile(),*b=tmpfile();if(!a||!b)throw std::runtime_error("tmpfile failed");oldWrite(a,p.data(),pitch,w,h,step);if(!ppmCapture::write(b,p.data(),pitch,w,h,step)||bytes(a)!=bytes(b))throw std::runtime_error("capture pixel mismatch");fclose(a);fclose(b);}
+unsigned w=2048,h=2048;std::vector<unsigned char> p(size_t(w)*h*4,127);double oldMs=0,newMs=0;for(unsigned i=0;i<3;++i){for(unsigned mode=0;mode<2;++mode){FILE* f=tmpfile();if(!f)throw std::runtime_error("tmpfile failed");auto t=std::chrono::steady_clock::now();if(mode)ppmCapture::write(f,p.data(),w*4,w,h);else oldWrite(f,p.data(),w*4,w,h,1);fflush(f);auto ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-t).count();(mode?newMs:oldMs)+=ms;fclose(f);}}printf("PASS: six byte-identical P6 cases with padding/downsample; 2048x2048 capture CPU+stdio mean old_ms=%.3f new_ms=%.3f (not game FPS).\n",oldMs/3,newMs/3);return 0;}catch(const std::exception& e){puts(e.what());return 1;}}
