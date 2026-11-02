@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "sha256": "26186CEB1142E1C84298AA528627531E3821B8068E4E777E3975403A272C530E",
+      "name": "Dementium.exe"
+    },
+    {
+      "sha256": "9A9CEFFB4BBF5FD9A22D5B9D0B87B963AB3ABF1BF4AFA7E49C5BDF44875FD42C",
+      "name": "rom.zar"
+    },
+    {
+      "sha256": "5888D3E590F5BFD8743484E7F31313996734ADEC5741506271A5C6368CBE8BA9",
+      "name": "dxcompiler.dll"
+    },
+    {
+      "sha256": "E082BF5C9F881C822B1540A76B74F9D15E18019A73EBD206A559595BADCB7F65",
+      "name": "steam_api64.dll"
+    }
+  ],
+  "description": "Known clean Steam PC release; mismatch is not proof of corruption"
+}
