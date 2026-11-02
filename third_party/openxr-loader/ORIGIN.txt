@@ -1,0 +1,6 @@
+Official Khronos OpenXR loader 1.1.65, Windows x64, unmodified.
+Source and release: https://github.com/KhronosGroup/OpenXR-SDK-Source/releases/tag/release-1.1.65
+Asset: openxr_loader_windows-1.1.65.zip
+Upstream ZIP SHA256: 859d7de35b7a968112db770b09ed8bddeed3cb16fd8ae070643a857676bea6fd
+License: Apache-2.0 (included).
+This loader is not SteamVR or Virtual Desktop and does not include either runtime.
