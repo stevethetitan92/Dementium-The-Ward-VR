@@ -1,0 +1,51 @@
+#pragma once
+// Generated from installed Microsoft SDK10.0.26100.0; all legacy methods
+// except explicit Close/Reset/CopyTextureRegion/ResourceBarrier paths.
+#define NATIVE_COPY_INTERVENING_METHODS(X) \
+    X(11,ClearState) \
+    X(12,DrawInstanced) \
+    X(13,DrawIndexedInstanced) \
+    X(14,Dispatch) \
+    X(15,CopyBufferRegion) \
+    X(17,CopyResource) \
+    X(18,CopyTiles) \
+    X(19,ResolveSubresource) \
+    X(20,IASetPrimitiveTopology) \
+    X(21,RSSetViewports) \
+    X(22,RSSetScissorRects) \
+    X(23,OMSetBlendFactor) \
+    X(24,OMSetStencilRef) \
+    X(25,SetPipelineState) \
+    X(27,ExecuteBundle) \
+    X(28,SetDescriptorHeaps) \
+    X(29,SetComputeRootSignature) \
+    X(30,SetGraphicsRootSignature) \
+    X(31,SetComputeRootDescriptorTable) \
+    X(32,SetGraphicsRootDescriptorTable) \
+    X(33,SetComputeRoot32BitConstant) \
+    X(34,SetGraphicsRoot32BitConstant) \
+    X(35,SetComputeRoot32BitConstants) \
+    X(36,SetGraphicsRoot32BitConstants) \
+    X(37,SetComputeRootConstantBufferView) \
+    X(38,SetGraphicsRootConstantBufferView) \
+    X(39,SetComputeRootShaderResourceView) \
+    X(40,SetGraphicsRootShaderResourceView) \
+    X(41,SetComputeRootUnorderedAccessView) \
+    X(42,SetGraphicsRootUnorderedAccessView) \
+    X(43,IASetIndexBuffer) \
+    X(44,IASetVertexBuffers) \
+    X(45,SOSetTargets) \
+    X(46,OMSetRenderTargets) \
+    X(47,ClearDepthStencilView) \
+    X(48,ClearRenderTargetView) \
+    X(49,ClearUnorderedAccessViewUint) \
+    X(50,ClearUnorderedAccessViewFloat) \
+    X(51,DiscardResource) \
+    X(52,BeginQuery) \
+    X(53,EndQuery) \
+    X(54,ResolveQueryData) \
+    X(55,SetPredication) \
+    X(56,SetMarker) \
+    X(57,BeginEvent) \
+    X(58,EndEvent) \
+    X(59,ExecuteIndirect)
