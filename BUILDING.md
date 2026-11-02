@@ -6,7 +6,7 @@
 - Visual Studio 2022 with Desktop development with C++, the Windows SDK, and MASM support.
 - Windows PowerShell 5.1 (included with Windows).
 
-Open **x64 Native Tools Command Prompt for VS 2022**, extract the source ZIP, change to that extracted folder, then run:
+Open **x64 Native Tools Command Prompt for VS 2022**, change to this repository folder, then run:
 
 ```cmd
 build-source.cmd

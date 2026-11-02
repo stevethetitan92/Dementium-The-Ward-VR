@@ -1,0 +1,15 @@
+bin/
+*.obj
+*.pdb
+*.dll
+*.exe
+*.log
+*.dmp
+*.sav
+save-slots/
+medicine-saves/
+__pycache__/
+src/inventory_art.hpp
+src/inventory_reference_art.hpp
+src/mod_menu_art.hpp
+src/wristband_texture.hpp

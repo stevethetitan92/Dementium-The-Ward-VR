@@ -6,11 +6,11 @@ PC VR mod for Dementium: The Ward, using Direct3D 12 interception, OpenXR and tr
 - [Report a bug](https://github.com/stevethetitan92/Dementium-The-Ward-VR/issues)
 - [Build from source](BUILDING.md)
 
-## Download the source
+## Browse or download the source
 
-[Download the complete source snapshot](Dementium-VR-source-2026-11-01.zip?raw=true), then extract it to its own folder. The archive contains the C++ source, launcher scripts, tests, dependency notices and build scripts described below. The folders below are inside that source ZIP.
+The source files are available directly in this repository: [bridge](src/bridge.cpp), [launcher helper](src/attach.cpp), [launcher scripts](launcher/) and [tests](tests/). Use GitHub's Code menu to clone or download the repository. The earlier [source snapshot ZIP](Dementium-VR-source-2026-11-01.zip?raw=true) remains available too.
 
-The independent source build produced both the bridge DLL and launcher helper successfully; all six selected standalone checks passed. This is compilation/offline validation, not an additional gameplay test.
+The independent source build produced the bridge DLL and launcher helper successfully; six standalone checks passed. This is compilation/offline validation, not an additional gameplay test.
 
 ## Source layout
 
